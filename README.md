@@ -48,3 +48,19 @@ go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest
 sudo cp /go/bin/grpcurl /usr/bin
 ```
 After this "grpcurl version" should show you the Installed Version of gRPCurl.
+
+### Install the Client
+
+Download Our Client Script (starlinkstatus_client.sh) that collects Data and sends it to our Servers, it allows for the following flags:
+
+* -s    Enable Speedtest (needs speedtest cli by Ookla)
+* -d    Enable Dishy Data (needs gRPCurl)
+
+It is run by a cronjob on a regular basis, follow the Comamnds below after Download.
+Replace ~path/to/ with the path you saved the Script to and YOURAPIKEY with the Key you got for your Dishy after Sign Up.
+This example will run the Script including a Speedtest and Data from yur Dishy every 15 Minutes.
+```
+chmod +x starlinkstatus_client.sh
+crontab -e
+*/15 * * * * ~/path/to/starlinkstatus_client.sh -k 'YOURAPIKEY' -s -d
+```
