@@ -74,9 +74,11 @@ pingservers
 if [ $dishy == true ]
 then
     grpcurl --version >/dev/null && echo "getting Dishy Data..." || { echo -e "\e[31mgrpcurl not found!\e[0m"; exit 1; }
-    dish=$(grpcurl -plaintext -emit-defaults -d '{"get_status":{}}' 192.168.100.1:9200 SpaceX.API.Device.Device/Handle)
+    dishstatus=$(grpcurl -plaintext -emit-defaults -d '{"getStatus":{}}' 192.168.100.1:9200 SpaceX.API.Device.Device/Handle)
+    dishcontext=$(grpcurl -plaintext -emit-defaults -d '{"dishGetContext":{}}' 192.168.100.1:9200 SpaceX.API.Device.Device/Handle)
 else
-    dish="{}"
+    dishstatus="{}"
+    dishcontext="{}"
 fi
 
 # Check if Speedtest Enabled and run it
@@ -89,7 +91,7 @@ else
 fi
 
 getgeodata
-jsndata='{"key":"'$apikey'","geo":'$geojsn',"ping":'$pingjsn',"speed":'$st',"dishy":'$dish'}'
+jsndata='{"key":"'$apikey'","geo":'$geojsn',"ping":'$pingjsn',"speed":'$st',"dishyStatus":'$dishstatus',"dishyContext":'$dishcontext'}'
 # Send data to API
 curl -d "$jsndata" -H "Content-Type: application/json" -X POST $APIURL
 echo "\n"
