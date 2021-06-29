@@ -1,6 +1,6 @@
 #!/bin/bash
 # This script makes Ping tests and sends them to the starlinkstatus.space API
-VERSION=1.10
+VERSION=1.15
 APIURL="https://starlinkstatus.space/api/postresult"
 SERVERS=($(curl -s https://starlinkstatus.space/api/getservers))
 
@@ -74,8 +74,8 @@ pingservers
 if [ $dishy == true ]
 then
     grpcurl --version >/dev/null && echo "getting Dishy Data..." || { echo -e "\e[31mgrpcurl not found!\e[0m"; exit 1; }
-    dishstatus=$(grpcurl -plaintext -emit-defaults -d '{"getStatus":{}}' 192.168.100.1:9200 SpaceX.API.Device.Device/Handle)
-    dishcontext=$(grpcurl -plaintext -emit-defaults -d '{"dishGetContext":{}}' 192.168.100.1:9200 SpaceX.API.Device.Device/Handle)
+    dishstatus=$(grpcurl -plaintext -emit-defaults -d '{"getStatus":{}}' 192.168.100.1:9200 SpaceX.API.Device.Device/Handle) || dishstatus="{}"
+    dishcontext=$(grpcurl -plaintext -emit-defaults -d '{"dishGetContext":{}}' 192.168.100.1:9200 SpaceX.API.Device.Device/Handle) || dishcontext="{}"
 else
     dishstatus="{}"
     dishcontext="{}"
