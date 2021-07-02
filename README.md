@@ -56,3 +56,5 @@ chmod +x starlinkstatus_client.sh
 crontab -e
 */15 * * * * ~/path/to/starlinkstatus_client.sh -k 'YOURAPIKEY' -s -d
 ```
+
+Note: Since new Dishy Firmware Blocks some APIs a "Permission Denied" Error can be seen in the Log when -d is used, as long as it says "Saved" at the end of the Output all is fine.
