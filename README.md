@@ -23,6 +23,7 @@ When you clicked the Link you should see a MEssage that you verified your Email 
 
 The Client Script uses Speedtest CLI by Ookla to make Speedtests and Collect the Data if enabled.
 If you already have a 3rd Party Speedtest cli installed makes sure to remove it first!
+For x86 users see ooklas tutorial: https://www.speedtest.net/de/apps/cli
 ```
 wget https://install.speedtest.net/app/cli/ookla-speedtest-1.0.0-armhf-linux.tgz
 tar zxvf ookla-speedtest-1.0.0-armhf-linux.tgz
