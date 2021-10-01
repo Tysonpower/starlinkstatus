@@ -53,8 +53,11 @@ Download Our Client Script (starlinkstatus_client.sh) that collects Data and sen
 
 * -s    Enable Speedtest (needs speedtest cli by Ookla)
 * -d    Enable Dishy Data (needs gRPCurl)
-* -w    Use WSL1 mode if you can't use WSL2 on Windows
+* -w    Use WSL1 mode for old wsl installations on Windows
 
+Note: Since new Dishy Firmware Blocks some APIs a "Permission Denied" Error can be seen in the Log when -d is used, as long as it says "Saved" at the end of the Output all is fine.
+
+## Linux/Mac
 It is run by a cronjob on a regular basis, follow the Comamnds below after Download.
 Replace ~path/to/ with the path you saved the Script to and YOURAPIKEY with the Key you got for your Dishy after Sign Up.
 This example will run the Script including a Speedtest and Data from yur Dishy every 15 Minutes.
@@ -64,4 +67,9 @@ crontab -e
 */15 * * * * ~/path/to/starlinkstatus_client.sh -k 'YOURAPIKEY' -s -d
 ```
 
-Note: Since new Dishy Firmware Blocks some APIs a "Permission Denied" Error can be seen in the Log when -d is used, as long as it says "Saved" at the end of the Output all is fine.
+## Windows
+To run the script every 15min in WSL on Windows you open the "task scheduler" and create a new task.
+- Add a trigger on system start, repeat every 15min for an unlimited time
+- Add a Action to start a program, enter the path to wsl.exe (C:\Windows\System32\wsl.exe) and add the argument `starlinkstatus_client.sh -k 'YOURAPIKEY' -s -d`
+
+Save the task, if you like you can test it by selecting it and clicking the run task button to the right in the task scheduler.
