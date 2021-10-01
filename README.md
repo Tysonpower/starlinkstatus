@@ -70,6 +70,6 @@ crontab -e
 ## Windows
 To run the script every 15min in WSL on Windows you open the "task scheduler" and create a new task.
 - Add a trigger on system start, repeat every 15min for an unlimited time
-- Add a Action to start a program, enter the path to wsl.exe (C:\Windows\System32\wsl.exe) and add the argument `starlinkstatus_client.sh -k 'YOURAPIKEY' -s -d`
+- Add a Action to start a program, enter the path to wsl.exe (C:\Windows\System32\wsl.exe) and add the argument `~/path/to/starlinkstatus_client.sh -k 'YOURAPIKEY' -s -d`
 
 Save the task, if you like you can test it by selecting it and clicking the run task button to the right in the task scheduler.
