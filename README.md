@@ -8,8 +8,11 @@ Starlinkstatus.space is a Website that offers Statistics of Starlink Users aroun
 
 ## How to Contribute Data
 
-To Contribute Data you need a Linux Maschine that is connected to your Starlink Connection (at best with Access to Dishy).
+To Contribute Data you need a Computer (Linux, Mac or Windows) that is connected to your Starlink Connection (at best with Access to Dishy).
 Perfect is a RaspberryPI 3B+ or newer with a Wired Connection, this Tutorial is based on a fresh installed RaspberryPi.
+
+Windows Users need to follow Microsofts WSL2 installation and continue on the WSL2 Ubuntu console afterwards.
+https://docs.microsoft.com/en-us/windows/wsl/install
 
 ### Register a Account
 
@@ -23,13 +26,15 @@ When you clicked the Link you should see a MEssage that you verified your Email 
 
 The Client Script uses Speedtest CLI by Ookla to make Speedtests and Collect the Data if enabled.
 If you already have a 3rd Party Speedtest cli installed makes sure to remove it first!
-For x86 users see ooklas tutorial: https://www.speedtest.net/de/apps/cli
+See ooklas tutorial for your Platform: https://www.speedtest.net/de/apps/cli
+
+Use these Commands when you use a RaspberryPi:
 ```
 wget https://install.speedtest.net/app/cli/ookla-speedtest-1.0.0-armhf-linux.tgz
 tar zxvf ookla-speedtest-1.0.0-armhf-linux.tgz
 sudo cp speedtest /usr/bin/speedtest
 ```
-After this "speedtest -V" should show you the Installed Version of Speedtest by Ookla. 
+After this "speedtest -V" should show you the Installed Version of Speedtest by Ookla.
 
 #### gRPCUrl
 
@@ -48,6 +53,7 @@ Download Our Client Script (starlinkstatus_client.sh) that collects Data and sen
 
 * -s    Enable Speedtest (needs speedtest cli by Ookla)
 * -d    Enable Dishy Data (needs gRPCurl)
+* -w    Use WSL1 mode if you can't use WSL2 on Windows
 
 It is run by a cronjob on a regular basis, follow the Comamnds below after Download.
 Replace ~path/to/ with the path you saved the Script to and YOURAPIKEY with the Key you got for your Dishy after Sign Up.
