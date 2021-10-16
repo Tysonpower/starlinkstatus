@@ -1,4 +1,5 @@
-﻿If ((New-Object Security.Principal.WindowsPrincipal $IsAdmin).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator) -eq $FALSE){
+﻿$IsAdmin=[Security.Principal.WindowsIdentity]::GetCurrent()
+If ((New-Object Security.Principal.WindowsPrincipal $IsAdmin).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator) -eq $FALSE){
     Read-Host -Prompt "You must execute this program As Administrator. Press Enter to exit."
     Exit
 }schtasks /delete /tn starlinkstatus /f

@@ -5,46 +5,7 @@
     $githubfolder="https://raw.githubusercontent.com/tevslin/Starlink-Statuspage-Clients/main"
     Invoke-WebRequest -Uri $githubfolder/$file -OutFile $starlinkfolder\$file -ErrorAction Stop -Verbose
 }
-function DownloadFilesFromRepo {
-Param(
-    [string]$Owner,
-    [string]$Repository,
-    [string]$Path,
-    [string]$DestinationPath
-    )
 
-    $baseUri = "https://api.github.com/"
-    $args = "repos/$Owner/$Repository/contents/$Path"
-    $wr = Invoke-WebRequest -Uri $($baseuri+$args)
-    $objects = $wr.Content | ConvertFrom-Json
-    $files = $objects | where {$_.type -eq "file"} | Select -exp download_url
-    $directories = $objects | where {$_.type -eq "dir"}
-    
-    $directories | ForEach-Object { 
-        DownloadFilesFromRepo -Owner $Owner -Repository $Repository -Path $_.path -DestinationPath $($DestinationPath+$_.name)
-    }
-
-    
-    if (-not (Test-Path $DestinationPath)) {
-        # Destination path does not exist, let's create it
-        try {
-            New-Item -Path $DestinationPath -ItemType Directory -ErrorAction Stop
-        } catch {
-            throw "Could not create path '$DestinationPath'!"
-        }
-    }
-
-    foreach ($file in $files) {
-        $fileDestination = Join-Path $DestinationPath (Split-Path $file -Leaf)
-        try {
-            Invoke-WebRequest -Uri $file -OutFile $fileDestination -ErrorAction Stop -Verbose
-            "Grabbed '$($file)' to '$fileDestination'"
-        } catch {
-            throw "Unable to download '$($file.path)'"
-        }
-    }
-
-}
 function SetUp-Folder{
     param([string]$FolderName)
     
@@ -146,7 +107,8 @@ function GetStatusPageKey{
     $key=""
     if ($(test-path $keyfile) -eq $true){ #*if there is a key file
         $key=Get-Content $keyfile -Erroraction Stop;
-        "API key found: $key"}
+        write-host "API key found: $key"
+    }
     else{
         while ($key.length -eq 0){
             $key=ShowTextDialog "Please enter your Starlink Statuspage API key" "API Key" "I don't have an API Key yet" 
@@ -241,7 +203,6 @@ $key=GetStatusPageKey
 "testing Starlinkstatus client..."
 $keyok=$false
 while ($keyok -eq $false){
-    #Invoke-Expression "$Starlinkfolder/starlinkstatusstarter.ps1" #test the install
 
     start-process  -filepath starlinkprestart.exe -nonewwindow -wait
     $log=$(Get-Content $StarlinkFolder"\log.txt")
@@ -253,7 +214,9 @@ while ($keyok -eq $false){
     }
     elseif ($ll -match "Key not Valid"){
         $msg=$messages.invalidkey
-        ShowTextDialog $(invoke-expression "echo $msg") "" "" -bigtext $true 
+        ShowTextDialog $(invoke-expression "echo $msg") "" "" -bigtext $true
+        "deleting bad key"
+        del "$Starlinkfolder\TheKey.txt" 
         $key=GetStatusPageKey
     }
     else{

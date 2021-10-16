@@ -13,7 +13,7 @@ $dateB= (Get-Item $f2).LastWriteTime
 
 if ($dateA -ge $dateB) {
   invoke-expression "invoke-ps2exe -inputfile '$f1' -outputfile '$f2'"
-  out-host -inputobject $filen " compiled."
+  write-host "$filen  compiled."
   return $true
   }
 else {
@@ -22,7 +22,7 @@ else {
 
 }
 $cexe=$false #asume not compressing exe
-$gitFolder="C:\users\$env:USERNAME\documents\github\starlink-statuspage-clients"
+$gitFolder="C:\users\$env:USERNAME\documents\github\starlinkstatus"
 
 $cexe=$cexe -or $(CompileIfChanged("schedulestarlinkstatus"))
 $cexe=$cexe -or $(CompileIfChanged("unschedulestarlinkstatus"))
