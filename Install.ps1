@@ -190,11 +190,19 @@ start-process  -filepath speedtest.exe  -wait
 $isp=""
 while ($isp -ne "Starlink"){
     $sd=$(speedtest.exe -f json|convertfrom-json)
-    $isp=$sd.ISP
-
-    if ($isp -ne "Starlink"){
-        $msg=$messages.notstarlink
+    if ($sd.PSobject.Properties.match('isp').count -eq 0){ #if isp not specified
+        "speedtest failure"
+        $sd
+        $msg=$messages.badspeedtest #must be speedtest failure
         ShowTextDialog $(invoke-expression "echo $msg") "" "" -bigtext $true -infoonly $true
+    }
+    else{
+        $isp=$sd.ISP
+
+        if ($isp -ne "Starlink"){
+            $msg=$messages.notstarlink
+            ShowTextDialog $(invoke-expression "echo $msg") "" "" -bigtext $true -infoonly $true
+        }
     }
 }
 
@@ -228,6 +236,7 @@ while ($keyok -eq $false){
 $msg=$messages.scheduling
 ShowTextDialog $(invoke-expression "echo $msg") "" "" -bigtext $true -infoonly $true
 #$Invoke-Expression "$Starlinkfolder/schedulestarlinkstatus.ps1"
+#unschedulestarlinkstatus.exe #unschedule any previous installation
 schedulestarlinkstatus.exe
 ShowTextDialog "Install Succeeded!" "" "" -infoonly $true
     
