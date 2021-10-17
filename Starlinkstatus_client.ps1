@@ -1,4 +1,4 @@
-﻿$VERSION = '0.7w'
+﻿$VERSION = '0.8w'
 $StarlinkFolder="C:\users\$env:USERNAME\documents\StarlinkScripts"
 $env:Path ="$StarlinkFolder;$env:Path"
 
@@ -14,8 +14,11 @@ function myhelp
 
 function pingservers
 {
-    $SERVERS=($(Invoke-WebRequest -Uri  'https://starlinkstatus.space/api/getservers' -Method GET).Content).Split(' ')
+    #$SERVERS=($(Invoke-WebRequest -Uri  'https://starlinkstatus.space/api/getservers' -Method GET).Content).Split(' ')
+    try {$raw=Invoke-WebRequest -Uri  'https://starlinkstatus.space/api/getservers' -Method GET}
+    catch {return $error[0]}
     $jsonstring='{'
+    $SERVERS=$raw.Content.split(' ')
     $cnt=$SERVERS.Count
     if ($v -eq $true) {Write-Information "Starting Ping Test. Servers: $cnt ...." -InformationAction Continue}
     Foreach ($server in $SERVERS)
@@ -67,6 +70,11 @@ Get-Date
 if ($v -eq $true) {"API Key: $apikey"}
 $APIURL="https://starlinkstatus.space/api/postresult"
 $pingjsn=pingservers
+if ($pingjsn[0] -ne '{'){ #if there was an error
+    "execution terminated by error below. Probably no Internet connection."
+    $error[0]
+    exit
+}
 $dishstatus='{}'
 $dishcontext='{}'
 if ($dishy=$true)
