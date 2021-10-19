@@ -30,7 +30,7 @@ You must either be using the Starlink router or set up port-forwarding in your o
 6. If the install succeeds, your client will be registered with Windows Task Scheduler to run every 15 minutes. See below for how to unschedule or reschedule it.
 7. The install can always be rerun if you've had to abandon it before completing.
 
-**Install Notes** There should not be any red messages in the Powershell window during installation. One possible source of errors is that some virus blockers may be suspicious of the Powershell scripts being downloaded and block them. There is a reported conflict with Kaspersky. If this is the case, it will be necssary to turn off the virus checker temporarily in order to install. Please report any such conflicts.
+**Install Notes** There should not be any red messages in the Powershell window during installation. One possible source of errors is that some virus blockers may be suspicious of the Powershell scripts being downloaded and block them. There is a reported conflict with Kaspersky. If this is the case, it will be necssary to turn off the virus checker temporarily in order to install. Please report any such conflicts [here](https://github.com/tevslin/starlinkstatus/issues).
 
 ## Operating Instructions
 
@@ -48,7 +48,7 @@ right click "schedulestarlinkstatus.exe" in the \StarlinkScripts folder and run 
 
 ## Trouble Reporting
 
-Please click issues in the menu bar of this repository and be as specific as possible about how to reproduce. Screenshots appreciated
+Please click [here](https://github.com/tevslin/starlinkstatus/issues) to report any issues and be as specific as possible about how to reproduce. Screenshots appreciated
 
 ## What Install.ps1 does
 
