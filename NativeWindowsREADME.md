@@ -1,4 +1,4 @@
-WARNING   WARNING WARNING This is alpha software, tested on very few machines and bound to have some problems. Feedback is appreciated but all use is at your own risk
+WARNING   WARNING WARNING This is beta software, tested on very few machines and bound to have some problems. Feedback is appreciated but all use is at your own risk
 
 # Starlink-Statuspage-Client
 
