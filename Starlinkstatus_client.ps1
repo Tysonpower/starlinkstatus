@@ -98,7 +98,7 @@ if ($dishy=$true)
     Catch
     {write-warning: "Continuing without DishContext"}
 }
-$geojsn=$(Invoke-WebRequest -Uri  'http://ip-api.com/json' -Method GET).Content
+$geojsn=$(Invoke-WebRequest -Uri  'http://ip-api.com/json' -Method GET -UseBasicParsing).Content
 if ($speedtest=$true)
 {
     Try{speedtest -V|Out-Null } Catch {Write-Warning "speedtest cli not found. Exiting," ; exit} 
@@ -109,5 +109,5 @@ $jsondata="{""key"":""$apikey"",""geo"":$geojsn,""ping"":$pingjsn,""speed"":$sd,
 if ($v -eq $true)
     {$jsondata|ConvertFrom-Json|ConvertTo-Json}
 #$jsondata|ConvertFrom-Json|ConvertTo-Json
-$(Invoke-WebRequest -Uri $APIURL -Method POST -Body $jsondata -ContentType "application/json; charset=utf-8").content
+$(Invoke-WebRequest -Uri $APIURL -Method POST -UseBasicParsing -Body $jsondata -ContentType "application/json; charset=utf-8").content
 
