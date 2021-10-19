@@ -15,7 +15,7 @@ function myhelp
 function pingservers
 {
     #$SERVERS=($(Invoke-WebRequest -Uri  'https://starlinkstatus.space/api/getservers' -Method GET).Content).Split(' ')
-    try {$raw=Invoke-WebRequest -Uri  'https://starlinkstatus.space/api/getservers' -Method GET}
+    try {$raw=Invoke-WebRequest -Uri  'https://starlinkstatus.space/api/getservers' -Method GET -UseBasicParsing}
     catch {return $error[0]}
     $jsonstring='{'
     $SERVERS=$raw.Content.split(' ')
