@@ -215,28 +215,30 @@ while ($keyok -eq $false){
     start-process  -filepath starlinkprestart.exe -nonewwindow -wait
     $log=$(Get-Content $StarlinkFolder"\log.txt")
     $ll=GetLastNBLine($log)
-    $ll
+    #$ll
     if ($ll -match "API Key OK"){
         "Test Succeeded"
         $keyok=$true
+        #ll
     }
     elseif ($ll -match "Key not Valid"){
         $msg=$messages.invalidkey
         ShowTextDialog $(invoke-expression "echo $msg") "" "" -bigtext $true
+        $ll
         "deleting bad key"
         del "$Starlinkfolder\TheKey.txt" 
         $key=GetStatusPageKey
     }
     else{
         $msg=$messages.unknownerror
+        $log
         ShowTextDialog $(invoke-expression "echo $msg") "" "" -bigtext $true -infoonly $true
         exit
     }
 }
 $msg=$messages.scheduling
 ShowTextDialog $(invoke-expression "echo $msg") "" "" -bigtext $true -infoonly $true
-#$Invoke-Expression "$Starlinkfolder/schedulestarlinkstatus.ps1"
-#unschedulestarlinkstatus.exe #unschedule any previous installation
+
 schedulestarlinkstatus.exe
 ShowTextDialog "Install Succeeded!" "" "" -infoonly $true
     
