@@ -11,7 +11,7 @@ Starlinkstatus.space is a Website that offers Statistics of Starlink Users aroun
 To Contribute Data you need a Computer (Linux, Mac or Windows) that is connected to your Starlink Connection (at best with Access to Dishy).
 Perfect is a RaspberryPI 3B+ or newer with a Wired Connection, this Tutorial is based on a fresh installed RaspberryPi.
 
-Windows Users need to follow Microsofts WSL2 installation and continue on the WSL2 Ubuntu console afterwards.
+Windows Users cab run either a Windows-native Powershell client, which is currently in alpha status and is largely self-indtalling, or can run the standard client unnder Windows Linux Subsystem (WLS) Version 2. Those installing the native Windows client should follow the installation instructions in [NativeWindowsReadMe.md](https://github.com/tevslin/starlinkstatus/blob/main/NativeWindowsREADME.md) while those installing the WLS versionnneed to follow Microsofts WSL2 installation and continue on the WSL2 Ubuntu console afterwards.
 https://docs.microsoft.com/en-us/windows/wsl/install
 
 ### Register a Account
@@ -19,6 +19,8 @@ https://docs.microsoft.com/en-us/windows/wsl/install
 Go to https://starlinkstatus.space and Register a Account by entering a Valid Email, a Username of your Choice as well as a Password you want to use and Click "Join Us". 
 After a few Minutes you should get an Email with a Link to verify your Account, maybe you need to have a look in your SPAM Folder as well.
 When you clicked the Link you should see a MEssage that you verified your Email successfully, if so you get a Email with your Personal API key in the next Minutes.
+
+After your account is registered and you have put your station on the map with the browser interface, follow the installation instructions in [NativeWindowsReadMe.md](https://github.com/tevslin/starlinkstatus/blob/main/NativeWindowsREADME.md) if you are installing the native windows client or the instructions below for all other suppoerted platforms.
 
 ### Install Prerequisite Software
 
