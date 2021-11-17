@@ -22,7 +22,7 @@ You must either be using the Starlink router or set up port-forwarding in your o
 
 ## Installation Instructions
 
-1. Download and save the install script by right clicking [here](https://github.com/tevslin/starlinkstatus/raw/main/Install.ps1) and choosing `Save link as....`.
+1. Download and save the install script by right clicking [here](https://github.com/Tysonpower/starlinkstatus/raw/main/Install.ps1) and choosing `Save link as....`.
 2. In the Windows command bar, start to type "Powershell".
 3. In the popup, select "Powershell" (not Powershell IDE) and `Run as Administrator`. You must have administrative privileges on the machine you are using.
 4. In the Powershell window, type `powershell.exe -noprofile -executionpolicy bypass -file <full path to where you downloaded the install script>/install.ps1`. By default, most Windows PC do not allow scripts to be run. This restriction is bypassed **for these scripts only** when you use 'executionpolicy bypass'. Hint: if you're not sure where you saved the install script or the proper full path to it, type `install.ps1` into the Windows command bar and choose the `Copy full path` option.
@@ -30,7 +30,7 @@ You must either be using the Starlink router or set up port-forwarding in your o
 6. If the install succeeds, your client will be registered with Windows Task Scheduler to run every 15 minutes. See below for how to unschedule or reschedule it.
 7. The install can always be rerun if you've had to abandon it before completing.
 
-**Install Notes** There should not be any red messages in the Powershell window during installation. One possible source of errors is that some virus blockers may be suspicious of the Powershell scripts being downloaded and block them. There is a reported conflict with Kaspersky. If this is the case, it will be necssary to turn off the virus checker temporarily in order to install. Please report any such conflicts [here](https://github.com/tevslin/starlinkstatus/issues).
+**Install Notes** There should not be any red messages in the Powershell window during installation. One possible source of errors is that some virus blockers may be suspicious of the Powershell scripts being downloaded and block them. There is a reported conflict with Kaspersky. If this is the case, it will be necssary to turn off the virus checker temporarily in order to install. Please report any such conflicts [here](https://github.com/Tysonpower/starlinkstatus/issues).
 
 ## Operating Instructions
 
@@ -48,7 +48,7 @@ right click "schedulestarlinkstatus.exe" in the \StarlinkScripts folder and run 
 
 ## Trouble Reporting
 
-Please click [here](https://github.com/tevslin/starlinkstatus/issues) to report any issues and be as specific as possible about how to reproduce. Screenshots appreciated
+Please click [here](https://github.com/Tysonpower/starlinkstatus/issues) to report any issues and be as specific as possible about how to reproduce. Screenshots appreciated
 
 ## What Install.ps1 does
 
