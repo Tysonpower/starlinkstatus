@@ -2,7 +2,7 @@
     param(
     [string]$file
     )
-    $githubfolder="https://github.com/Tysonpower/starlinkstatus/main/windowsinstall"
+    $githubfolder="https://raw.githubusercontent.com/Tysonpower/starlinkstatus/main/windowsinstall"
     Invoke-WebRequest -Uri $githubfolder/$file -OutFile $starlinkfolder\$file -ErrorAction Stop -Verbose
 }
 
