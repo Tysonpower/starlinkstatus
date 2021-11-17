@@ -22,7 +22,7 @@ You must either be using the Starlink router or set up port-forwarding in your o
 
 ## Installation Instructions
 
-1. Download and save the install script by right clicking [here](https://github.com/Tysonpower/starlinkstatus/raw/main/Install.ps1) and choosing `Save link as....`.
+1. Download and save the install script by right clicking [here](https://github.com/Tysonpower/starlinkstatus/raw/main/windowsinstall/Install.ps1) and choosing `Save link as....`.
 2. In the Windows command bar, start to type "Powershell".
 3. In the popup, select "Powershell" (not Powershell IDE) and `Run as Administrator`. You must have administrative privileges on the machine you are using.
 4. In the Powershell window, type `powershell.exe -noprofile -executionpolicy bypass -file <full path to where you downloaded the install script>/install.ps1`. By default, most Windows PC do not allow scripts to be run. This restriction is bypassed **for these scripts only** when you use 'executionpolicy bypass'. Hint: if you're not sure where you saved the install script or the proper full path to it, type `install.ps1` into the Windows command bar and choose the `Copy full path` option.
