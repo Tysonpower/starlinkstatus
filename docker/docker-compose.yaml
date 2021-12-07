@@ -5,4 +5,4 @@ services:
       context: .
     restart: always
     environment:
-      - APIKEY=your-api-key
+      - APIKEY=YOURAPIKEY
