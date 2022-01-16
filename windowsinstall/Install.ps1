@@ -199,10 +199,7 @@ while ($isp -ne "Starlink"){
     else{
         $isp=$sd.ISP
 
-        if ($isp -ne "Starlink"){
-            $msg=$messages.notstarlink
-            ShowTextDialog $(invoke-expression "echo $msg") "" "" -bigtext $true -infoonly $true
-        }
+
     }
 }
 
