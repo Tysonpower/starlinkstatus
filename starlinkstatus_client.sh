@@ -1,8 +1,8 @@
 #!/bin/bash
 # This script makes Ping tests and sends them to the starlinkstatus.space API
-VERSION=1.15
+VERSION=1.2
 APIURL="https://starlinkstatus.space/api/postresult"
-SERVERS=($(curl -s https://starlinkstatus.space/api/getservers))
+SERVERSURL="https://starlinkstatus.space/api/getservers"
 
 speedtest=false
 dishy=false
@@ -66,8 +66,16 @@ if [ "$apikey" == "" ]
 then
     exit
 fi
-
 echo "API Key: $apikey"
+
+# get servers to ping
+SERVERS=($(curl -s ${SERVERSURL}))
+# Check if Servers to Ping are there, if not try again (could be caused by connection timeout)
+if [ ${#SERVERS[@]} -gt 0 ]
+then
+    SERVERS=($(curl -s ${SERVERSURL}))
+fi
+
 pingservers
 
 # Check if Dishy Telemetry Enabled and run it
@@ -75,7 +83,8 @@ if [ $dishy == true ]
 then
     grpcurl --version >/dev/null && echo "getting Dishy Data..." || { echo -e "\e[31mgrpcurl not found!\e[0m"; exit 1; }
     dishstatus=$(grpcurl -plaintext -emit-defaults -d '{"getStatus":{}}' 192.168.100.1:9200 SpaceX.API.Device.Device/Handle) || dishstatus="{}"
-    dishcontext=$(grpcurl -plaintext -emit-defaults -d '{"dishGetContext":{}}' 192.168.100.1:9200 SpaceX.API.Device.Device/Handle) || dishcontext="{}"
+    # dishcontext=$(grpcurl -plaintext -emit-defaults -d '{"dishGetContext":{}}' 192.168.100.1:9200 SpaceX.API.Device.Device/Handle) || dishcontext="{}"
+    dishcontext="{}"    #this APi is sadly not useable anymore
 else
     dishstatus="{}"
     dishcontext="{}"
@@ -91,7 +100,7 @@ else
 fi
 
 getgeodata
-jsndata='{"key":"'$apikey'","geo":'$geojsn',"ping":'$pingjsn',"speed":'$st',"dishyStatus":'$dishstatus',"dishyContext":'$dishcontext'}'
+jsndata='{"key":"'$apikey'","geo":'$geojsn',"ping":'$pingjsn',"speed":'$st',"dishyStatus":'$dishstatus',"dishyContext":'$dishcontext',"version":'$VERSION'}'
 # Send data to API
 curl -d "$jsndata" -H "Content-Type: application/json" -X POST $APIURL
 echo "\n"
