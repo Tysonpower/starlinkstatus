@@ -4,6 +4,8 @@ https://starlinkstatus.space/
 
 Current version of the .sh Script is 1.2 - please update if you have any issues.
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/C0C67UDEB)
+
 ### About
 
 Starlinkstatus.space is a Website that offers Statistics of Starlink Users around the World. All Data is Collected by Users that are interested in the Performance of Starlink and run either a Speedtest every 15 Minutes (or similar) over a Bash Script or use our Custom Ookla Speedtest on the Website when they want to do a Speedtest anyway.
