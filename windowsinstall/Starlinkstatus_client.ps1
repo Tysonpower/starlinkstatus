@@ -1,4 +1,4 @@
-﻿$VERSION = '0.8w'
+﻿$VERSION = 1.2
 $StarlinkFolder="C:\users\$env:USERNAME\documents\StarlinkScripts"
 $env:Path ="$StarlinkFolder;$env:Path"
 
@@ -105,7 +105,7 @@ if ($speedtest=$true)
     $sd=$(speedtest -f json)
 }
 
-$jsondata="{""key"":""$apikey"",""geo"":$geojsn,""ping"":$pingjsn,""speed"":$sd,""dishyStatus"":$dishstatus,""dishyContext"":$dishContext}"
+$jsondata="{""key"":""$apikey"",""geo"":$geojsn,""ping"":$pingjsn,""speed"":$sd,""dishyStatus"":$dishstatus,""dishyContext"":$dishContext,""version"":$VERSION}"
 if ($v -eq $true)
     {$jsondata|ConvertFrom-Json|ConvertTo-Json}
 #$jsondata|ConvertFrom-Json|ConvertTo-Json
