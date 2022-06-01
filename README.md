@@ -40,6 +40,7 @@ Use these Commands when you use a RaspberryPi:
 wget https://install.speedtest.net/app/cli/ookla-speedtest-1.0.0-armhf-linux.tgz
 tar zxvf ookla-speedtest-1.0.0-armhf-linux.tgz
 sudo cp speedtest /usr/bin/speedtest
+speedtest --accept-license
 ```
 After this "speedtest -V" should show you the Installed Version of Speedtest by Ookla.
 
