@@ -50,7 +50,7 @@ Please follow the Instructions to install the GO SDK from Google first: https://
 ```
 go get github.com/fullstorydev/grpcurl/...
 go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest
-sudo cp /go/bin/grpcurl /usr/bin
+sudo cp ./go/bin/grpcurl /usr/bin
 ```
 After this "grpcurl version" should show you the Installed Version of gRPCurl.
 
