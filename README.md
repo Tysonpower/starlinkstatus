@@ -2,19 +2,19 @@
 
 https://starlinkstatus.space/
 
-Current version of the .sh Script is 1.2 - please update if you have any issues.
+The current version of the .sh Script is 1.2—please update if you have any issues.
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/C0C67UDEB)
 
 ### About
 
-Starlinkstatus.space is a Website that offers Statistics of Starlink Users around the World. All Data is Collected by Users that are interested in the Performance of Starlink and run either a Speedtest every 15 Minutes (or similar) over a Bash Script or use our Custom Ookla Speedtest on the Website when they want to do a Speedtest anyway.
+Starlinkstatus.space is a website that offers statistics from Starlink users worldwide. All data is collected by users that are interested in the performance of Starlink, and who run frequent speed tests with a script, or use our custom Ookla speedtest.
 
 ## How to Contribute Data
 
-To Contribute Data you need a Computer (Linux, Mac or Windows) that is connected to your Starlink Connection (at best with Access to Dishy).
-Perfect is a RaspberryPI 3B+ or newer with a Wired Connection, this Tutorial is based on a fresh installed RaspberryPi.
-
+To contribute data you need a computer (Linux, Mac, or Windows) that is connected to your Starlink network (at best with access to Dishy).
+A good setup is a Raspberry PI 3B+ or newer with a wired connection; this tutorial is based on a fresh installation of one.
+ 
 Windows Users should use the Automatic Installer by @tevslin:
 https://github.com/Tysonpower/starlinkstatus/blob/main/windowsinstall/NativeWindowsREADME.md
 
@@ -23,52 +23,51 @@ https://docs.microsoft.com/en-us/windows/wsl/install
 
 ### Register a Account
 
-Go to https://starlinkstatus.space and Register a Account by entering a Valid Email, a Username of your Choice as well as a Password you want to use and Click "Join Us". 
-After a few Minutes you should get an Email with a Link to verify your Account, maybe you need to have a look in your SPAM Folder as well.
-When you clicked the Link you should see a MEssage that you verified your Email successfully, if so you get a Email with your Personal API key in the next Minutes.
+Go to https://starlinkstatus.space and register an account by entering your email, username, and choosing a password. 
+You'll recieve an email with instructions (you may need to check your Spam folder). After verifying, you'll get a second email with your API key.
 
 ### Install Prerequisite Software
 
 #### Speedtest CLI
 
-The Client Script uses Speedtest CLI by Ookla to make Speedtests and Collect the Data if enabled.
-If you already have a 3rd Party Speedtest cli installed makes sure to remove it first!
-See ooklas tutorial for your Platform: https://www.speedtest.net/de/apps/cli
+The Client script uses the Speedtest CLI by Ookla to run tests and optionally collect the data.
+If you already have a Third-Party Speedtest CLI installed, remove it first.
+See Ookla's tutorial for your platform: https://www.speedtest.net/de/apps/cli
 
-Use these Commands when you use a RaspberryPi:
+For a Raspberry Pi, use the following:
 ```
 wget https://install.speedtest.net/app/cli/ookla-speedtest-1.0.0-armhf-linux.tgz
 tar zxvf ookla-speedtest-1.0.0-armhf-linux.tgz
 sudo cp speedtest /usr/bin/speedtest
 speedtest --accept-license
 ```
-After this "speedtest -V" should show you the Installed Version of Speedtest by Ookla.
+Run `speedtest -V` to check the version.
 
 #### gRPCUrl
 
-gRPCUrl is used to Communicate with Dishy and Collect Data from it if enabled.
-Please follow the Instructions to install the GO SDK from Google first: https://golang.org/doc/install
+gRPCUrl is used to communicate with Dishy and optionally collect data.
+Please install the GO SDK from Google first: https://golang.org/doc/install
 ```
 go get github.com/fullstorydev/grpcurl/...
 go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest
 sudo cp ./go/bin/grpcurl /usr/bin
 ```
-After this "grpcurl version" should show you the Installed Version of gRPCurl.
+Run `grpcurl version` to check the version.
 
 ### Install the Client
 
-Download Our Client Script (starlinkstatus_client.sh) that collects Data and sends it to our Servers, it allows for the following flags:
+Download our Client Script (starlinkstatus_client.sh), which allows for the following flags:
 
 * -s    Enable Speedtest (needs speedtest cli by Ookla)
 * -d    Enable Dishy Data (needs gRPCurl)
 * -w    Use WSL1 mode for old wsl installations on Windows
 
-Note: Since new Dishy Firmware Blocks some APIs a "Permission Denied" Error can be seen in the Log when -d is used, as long as it says "Saved" at the end of the Output all is fine.
+Note: Since new versions of the Dishy firmware block some APIs, a "Permission Denied" error can be seen in the log when -d is used. As long as it says "Saved" at the end of the output, all is fine.
 
 ## Linux/Mac
-It is run by a cronjob on a regular basis, follow the Comamnds below after Download.
-Replace ~path/to/ with the path you saved the Script to and YOURAPIKEY with the Key you got for your Dishy after Sign Up.
-This example will run the Script including a Speedtest and Data from yur Dishy every 15 Minutes.
+The script is run by a cronjob on a regular basis; follow the commands below after the download to set it up.
+Replace `~path/to/` with the script's location, and YOURAPIKEY with the key you recieved.
+This example will run the script, including a Speedtest and data from your Dishy, every 15 minutes.
 ```
 chmod +x starlinkstatus_client.sh
 crontab -e
@@ -76,8 +75,8 @@ crontab -e
 ```
 
 ## Windows
-To run the script every 15min in WSL on Windows you open the "task scheduler" and create a new task.
-- Add a trigger on system start, repeat every 15min for an unlimited time
-- Add a Action to start a program, enter the path to wsl.exe (C:\Windows\System32\wsl.exe) and add the argument `~/path/to/starlinkstatus_client.sh -k 'YOURAPIKEY' -s -d`
+To run the script every 15 minutes in WSL on Windows, open the "task scheduler" and create a new task.
+- Add a trigger on system start, repeat every 15 minutes for an unlimited time
+- Add a action to start a program, enter the path to wsl.exe (`C:\Windows\System32\wsl.exe`) and add the argument `~/path/to/starlinkstatus_client.sh -k 'YOURAPIKEY' -s -d`
 
-Save the task, if you like you can test it by selecting it and clicking the run task button to the right in the task scheduler.
+Save the task—you can test it by selecting it and clicking the "run task" button to the right of the task scheduler.
