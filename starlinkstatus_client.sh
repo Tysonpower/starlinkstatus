@@ -1,6 +1,6 @@
 #!/bin/bash
 # This script makes Ping tests and sends them to the starlinkstatus.space API
-VERSION=1.2
+VERSION=1.21
 APIURL="https://starlinkstatus.space/api/postresult"
 SERVERSURL="https://starlinkstatus.space/api/getservers"
 
@@ -93,7 +93,7 @@ fi
 # Check if Speedtest Enabled and run it
 if [ $speedtest == true ]
 then
-    speedtest -V >/dev/null && echo "speedtest is running..." || { echo -e "\e[31mSpeedtest CLI not found!\e[0m"; exit 1; }
+    speedtest -V --accept-license --accept-gdpr >/dev/null && echo "speedtest is running..." || { echo -e "\e[31mSpeedtest CLI not found!\e[0m"; exit 1; }
     st=$(speedtest -f json)
 else
     st="{}"
