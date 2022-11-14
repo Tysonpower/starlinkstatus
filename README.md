@@ -6,6 +6,9 @@ The current version of the .sh Script is 1.2—please update if you have any iss
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/C0C67UDEB)
 
+## WARNING
+This will use quite a lot of traffic! With the new Datacaps you maybe want to increase the time between test to 1h or more!
+
 ### About
 
 Starlinkstatus.space is a website that offers statistics from Starlink users worldwide. All data is collected by users that are interested in the performance of Starlink, and who run frequent speed tests with a script, or use our custom Ookla speedtest.
