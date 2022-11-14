@@ -8,6 +8,7 @@ The current version of the .sh Script is 1.2—please update if you have any iss
 
 ## WARNING
 This will use quite a lot of traffic! With the new Datacaps you maybe want to increase the time between test to 1h or more!
+Each test can use up to ~500Mb of Data, so a test every 15min could use up to 48gb/Day!
 
 ### About
 
