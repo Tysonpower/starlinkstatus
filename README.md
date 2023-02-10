@@ -52,7 +52,6 @@ Run `speedtest -V` to check the version.
 gRPCUrl is used to communicate with Dishy and optionally collect data.
 Please install the GO SDK from Google first: https://golang.org/doc/install
 ```
-go get github.com/fullstorydev/grpcurl/...
 go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest
 sudo cp ./go/bin/grpcurl /usr/bin
 ```
@@ -77,7 +76,13 @@ chmod +x starlinkstatus_client.sh
 crontab -e
 */15 * * * * ~/path/to/starlinkstatus_client.sh -k 'YOURAPIKEY' -s -d
 ```
-
+### Data Saver 
+This example will run the script, including a Speedtest and data from your Dishy, every 8 hours (3 times in total per day).
+```
+chmod +x starlinkstatus_client.sh
+crontab -e
+0 */8 * * * ~/path/to/starlinkstatus_client.sh -k 'YOURAPIKEY' -s -d
+```
 ## Windows
 To run the script every 15 minutes in WSL on Windows, open the "task scheduler" and create a new task.
 - Add a trigger on system start, repeat every 15 minutes for an unlimited time
