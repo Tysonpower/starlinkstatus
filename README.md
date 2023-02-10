@@ -70,13 +70,19 @@ Note: Since new versions of the Dishy firmware block some APIs, a "Permission De
 ## Linux/Mac
 The script is run by a cronjob on a regular basis; follow the commands below after the download to set it up.
 Replace `~path/to/` with the script's location, and YOURAPIKEY with the key you recieved.
-This example will run the script, including a Speedtest and data from your Dishy, every 8 hours.
+This example will run the script, including a Speedtest and data from your Dishy, every 15 minutes.
+```
+chmod +x starlinkstatus_client.sh
+crontab -e
+*/15 * * * * ~/path/to/starlinkstatus_client.sh -k 'YOURAPIKEY' -s -d
+```
+### Data Saver 
+This example will run the script, including a Speedtest and data from your Dishy, every 8 hours (3 times in total per day).
 ```
 chmod +x starlinkstatus_client.sh
 crontab -e
 0 */8 * * * ~/path/to/starlinkstatus_client.sh -k 'YOURAPIKEY' -s -d
 ```
-
 ## Windows
 To run the script every 15 minutes in WSL on Windows, open the "task scheduler" and create a new task.
 - Add a trigger on system start, repeat every 15 minutes for an unlimited time
