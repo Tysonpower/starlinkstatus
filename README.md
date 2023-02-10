@@ -52,7 +52,6 @@ Run `speedtest -V` to check the version.
 gRPCUrl is used to communicate with Dishy and optionally collect data.
 Please install the GO SDK from Google first: https://golang.org/doc/install
 ```
-go get github.com/fullstorydev/grpcurl/...
 go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest
 sudo cp ./go/bin/grpcurl /usr/bin
 ```
@@ -71,11 +70,11 @@ Note: Since new versions of the Dishy firmware block some APIs, a "Permission De
 ## Linux/Mac
 The script is run by a cronjob on a regular basis; follow the commands below after the download to set it up.
 Replace `~path/to/` with the script's location, and YOURAPIKEY with the key you recieved.
-This example will run the script, including a Speedtest and data from your Dishy, every 15 minutes.
+This example will run the script, including a Speedtest and data from your Dishy, every 8 hours.
 ```
 chmod +x starlinkstatus_client.sh
 crontab -e
-*/15 * * * * ~/path/to/starlinkstatus_client.sh -k 'YOURAPIKEY' -s -d
+0 */8 * * * ~/path/to/starlinkstatus_client.sh -k 'YOURAPIKEY' -s -d
 ```
 
 ## Windows
