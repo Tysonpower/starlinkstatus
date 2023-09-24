@@ -94,7 +94,7 @@ fi
 if [ $speedtest == true ]
 then
     speedtest -V --accept-license --accept-gdpr >/dev/null && echo "speedtest is running..." || { echo -e "\e[31mSpeedtest CLI not found!\e[0m"; exit 1; }
-    st=$(speedtest -f json)
+    st=$(speedtest --accept-license --accept-gdpr -f json)
 else
     st="{}"
 fi
