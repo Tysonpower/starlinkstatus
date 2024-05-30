@@ -1,6 +1,6 @@
 #!/bin/bash
 # This script makes Ping tests and sends them to the starlinkstatus.space API
-VERSION=1.21
+VERSION=1.22
 APIURL="https://starlinkstatus.space/api/postresult"
 SERVERSURL="https://starlinkstatus.space/api/getservers"
 
