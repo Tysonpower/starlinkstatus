@@ -1,2 +1,4 @@
 
 .DS_Store
+docker/.env
+kubernetes/secrets.yaml

@@ -1,0 +1,30 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: starlink-cron
+spec:
+  schedule: "0 */2 * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: starlinkstatus
+        spec:
+          containers:
+          - name: starlinkstatus
+            image: thegippygeek/starlinkstatus:0.0.12
+            env:
+            - name: APIKEY
+              valueFrom:
+                secretKeyRef:
+                  name: starlinkstatus
+                  key: apikey
+            envFrom:
+            - configMapRef:
+                name: starlinkstatus-cronjob
+            resources:
+              limits:
+                memory: "128Mi"
+                cpu: "500m"
+          restartPolicy: OnFailure
