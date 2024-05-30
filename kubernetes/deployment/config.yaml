@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: starlinkstatus
+data:
+  SCHEDULE: "900"
+  DISHY: "true"
+  SPEEDTEST: "true"
+  debug: "true"
+  CRONJOB: "false"
