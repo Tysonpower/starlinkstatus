@@ -7,7 +7,7 @@ services:
     environment:
       - APIKEY=YOURAPIKEY
       - SCHEDULE=900
-      - DISHY=true
-      - SPEEDTEST=true
-      - debug=false
+      - DISHY=false
+      - SPEEDTEST=false
+      - debug=true
       - CRONJOB=false

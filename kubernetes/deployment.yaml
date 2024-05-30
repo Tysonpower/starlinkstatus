@@ -16,7 +16,7 @@ spec:
       containers:
       - name: starlinkstatus
         image: thegippygeek/starlinkstatus:0.0.12
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         env:
         - name: APIKEY
           valueFrom:
