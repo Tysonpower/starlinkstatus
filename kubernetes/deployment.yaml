@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: starlinkstatus
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: starlinkstatus
+  template:
+    metadata:
+      labels:
+        app: starlinkstatus
+    spec:
+      containers:
+      - name: starlinkstatus
+        image: thegippygeek/starlinkstatus:0.0.11
+        imagePullPolicy: Always
+        env:
+        - name: APIKEY
+          valueFrom:
+            secretKeyRef:
+              name: starlinkstatus
+              key: apikey
+        envFrom:
+        - configMapRef:
+            name: starlinkstatus
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        
