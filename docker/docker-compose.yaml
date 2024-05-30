@@ -6,3 +6,8 @@ services:
     restart: always
     environment:
       - APIKEY=YOURAPIKEY
+      - SCHEDULE=900
+      - DISHY=false
+      - SPEEDTEST=false
+      - debug=true
+      - CRONJOB=false

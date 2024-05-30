@@ -1,0 +1,22 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: starlinkstatus-cronjob
+data:
+  SCHEDULE: "3600"
+  DISHY: "true"
+  SPEEDTEST: "true"
+  debug: "false"
+  CRONJOB: "true"
+# ---
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: starlinkstatus-15m
+# data:
+#   SCHEDULE: "900"
+#   DISHY: "true"
+#   SPEEDTEST: "false"
+#   debug: "false"
+#   CRONJOB: "true"
