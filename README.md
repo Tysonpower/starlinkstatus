@@ -40,8 +40,8 @@ See Ookla's tutorial for your platform: https://www.speedtest.net/de/apps/cli
 
 For a Raspberry Pi, use the following:
 ```
-wget https://install.speedtest.net/app/cli/ookla-speedtest-1.0.0-armhf-linux.tgz
-tar zxvf ookla-speedtest-1.0.0-armhf-linux.tgz
+wget https://install.speedtest.net/app/cli/ookla-speedtest-1.2.0-linux-armhf.tgz
+tar zxvf ookla-speedtest-1.2.0-linux-armhf.tgz
 sudo cp speedtest /usr/bin/speedtest
 speedtest --accept-license
 ```
