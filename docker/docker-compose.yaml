@@ -6,3 +6,4 @@ services:
     restart: always
     environment:
       - APIKEY=YOURAPIKEY
+      - INTERVAL=900
