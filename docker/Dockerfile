@@ -5,5 +5,5 @@ RUN go install github.com/fullstorydev/grpcurl/cmd/grpcurl@latest
 RUN mv ~/go/bin/grpcurl /usr/bin
 RUN curl https://raw.githubusercontent.com/Tysonpower/starlinkstatus/main/starlinkstatus_client.sh -o /usr/bin/starlinkstatus_client.sh && chmod +x /usr/bin/starlinkstatus_client.sh
 RUN speedtest --accept-license --accept-gdpr
-ENTRYPOINT watch -n 900 starlinkstatus_client.sh -k $APIKEY -s -d
+ENTRYPOINT watch -n $INTERVAL starlinkstatus_client.sh -k $APIKEY -s -d
 
