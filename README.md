@@ -2,9 +2,18 @@
 
 https://starlinkstatus.space/
 
-The current version of the .sh Script is 1.2—please update if you have any issues.
-
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/C0C67UDEB)
+
+The current version of the .sh Script is 1.3 — please update if still us an older version.
+
+## Upgrade to Version 1.3
+When upgrading from version 1.2x to 1.3 you need to change your cron to only start the script on reboot. After Upgrading please restart your compute to activate the script with the new cron.
+
+`@reboot ~/path/to/starlinkstatus_client.sh -k 'YOURAPIKEY' -s -d`
+
+If you used a different speedtest interval before, you now need to set it with the -i flag in seconds. 
+
+`@reboot ~/path/to/starlinkstatus_client.sh -k 'YOURAPIKEY' -s -d -i 300`
 
 ## WARNING
 This will use quite a lot of traffic! If you are NOT on a unlimited plan you should increase the interval of the speedtests.
