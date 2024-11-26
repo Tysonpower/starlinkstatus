@@ -24,7 +24,7 @@ help() {
 
 ping_server() {
   local server=$1
-  if ping 127.0.0.1 -c 1 -i 0.2; then
+  if ping 127.0.0.1 -c 1 -i 0.2 >/dev/null; then
     avg_ping=$(ping -4 -W 1 -c 3 -i 0.2 "$server" | awk -F '/' 'END {print $5}')
   else
     avg_ping=$(ping -c 3 "$server" | awk -F '/' 'END {print $5}')
