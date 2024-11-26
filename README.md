@@ -7,7 +7,12 @@ https://starlinkstatus.space/
 The current version of the .sh Script is 1.3 — please update if still us an older version.
 
 ## Upgrade to Version 1.3
-When upgrading from version 1.2x to 1.3 you need to change your cron to only start the script on reboot. After Upgrading please restart your compute to activate the script with the new cron.
+When upgrading from version 1.2x to 1.3 you need to change your cron to only start the script on reboot.
+Also make sure that you got gnu parallel installed, it can be installed on msot distros via apt.
+
+`sudo apt install parallel`
+
+After Upgrading please restart your compute to activate the script with the new cron.
 
 `@reboot ~/path/to/starlinkstatus_client.sh -k 'YOURAPIKEY' -s -d`
 
@@ -40,6 +45,12 @@ Go to https://starlinkstatus.space and register an account by entering your emai
 You'll recieve an email with instructions (you may need to check your Spam folder). After verifying, you'll get a second email with your API key.
 
 ### Install Prerequisite Software
+
+#### Gnu Parallel
+
+Since V 1.3 we use parallel to make latency collection faster, please make sure it is installed with `parallel --version`
+
+If you need to install it use the following command: ``sudo apt install parallel``
 
 #### Speedtest CLI
 
