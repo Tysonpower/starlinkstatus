@@ -22,17 +22,42 @@ help() {
     echo "-h | --help       Show this Message"
 }
 
+extract_avg_ping() {
+  local output="$1"
+  local avg
+
+  # GNU/Linux (GNU ping): "rtt min/avg/max/mdev = 10.123/20.456/30.789/1.234 ms"
+  if echo "$output" | grep -q "rtt"; then
+    avg=$(echo "$output" | awk -F'/' '/rtt/ {print $5}')
+  fi
+
+  # macOS/BSD: "round-trip min/avg/max/stddev = 10.123/20.456/30.789/1.234 ms"
+  if echo "$output" | grep -q "round-trip"; then
+    avg=$(echo "$output" | awk -F'/' '/round-trip/ {print $2}')
+  fi
+
+  # Alpine Linux (BusyBox): "round-trip min/avg/max = 10.123/20.456/30.789 ms"
+  if echo "$output" | grep -q "round-trip min/avg/max"; then
+    avg=$(echo "$output" | awk -F'/' '/round-trip/ {print $2}')
+  fi
+
+  # if mothing found use -1
+  echo "${avg:-"-1"}"
+}
+
 ping_server() {
   local server=$1
   if ping 127.0.0.1 -c 1 -i 0.2 >/dev/null; then
-    avg_ping=$(ping -4 -W 1 -c 3 -i 0.2 "$server" | awk -F '/' 'END {print $5}')
+    ping_output=$(ping -4 -W 1 -c 3 -i 0.2 "$server" 2>/dev/null)
   else
-    avg_ping=$(ping -c 3 "$server" | awk -F '/' 'END {print $5}')
+    ping_output=$(ping -c 3 "$server" 2>/dev/null)
   fi
-  
+
+  avg_ping=$(extract_avg_ping "$ping_output")
   # on timeout use -1
   echo "${avg_ping:-"-1"}"
 }
+export -f extract_avg_ping
 export -f ping_server
 
 pingservers() {
