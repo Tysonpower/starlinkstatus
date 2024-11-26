@@ -33,12 +33,12 @@ extract_avg_ping() {
 
   # macOS/BSD: "round-trip min/avg/max/stddev = 10.123/20.456/30.789/1.234 ms"
   if echo "$output" | grep -q "round-trip"; then
-    avg=$(echo "$output" | awk -F'/' '/round-trip/ {print $2}')
+    avg=$(echo "$output" | awk -F'/' '/round-trip/ {print $5}')
   fi
 
   # Alpine Linux (BusyBox): "round-trip min/avg/max = 10.123/20.456/30.789 ms"
   if echo "$output" | grep -q "round-trip min/avg/max"; then
-    avg=$(echo "$output" | awk -F'/' '/round-trip/ {print $2}')
+    avg=$(echo "$output" | awk -F'/' '/round-trip/ {print $4}')
   fi
 
   # if mothing found use -1
