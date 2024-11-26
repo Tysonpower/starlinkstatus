@@ -7,12 +7,12 @@ The current version of the .sh Script is 1.2—please update if you have any iss
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/C0C67UDEB)
 
 ## WARNING
-This will use quite a lot of traffic! With the new Datacaps you maybe want to increase the time between test to 1h or more!
+This will use quite a lot of traffic! If you are NOT on a unlimited plan you should increase the interval of the speedtests.
 Each test can use up to ~500Mb of Data, so a test every 15min could use up to 48gb/Day!
 
 ### About
 
-Starlinkstatus.space is a website that offers statistics from Starlink users worldwide. All data is collected by users that are interested in the performance of Starlink, and who run frequent speed tests with a script, or use our custom Ookla speedtest.
+Starlinkstatus.space is a website that offers statistics from Starlink users worldwide. All data is collected by users that are interested in the performance of Starlink, and who run frequent speed tests as well as collect latency measurements with our script.
 
 ## How to Contribute Data
 
@@ -43,7 +43,7 @@ For a Raspberry Pi, use the following:
 wget https://install.speedtest.net/app/cli/ookla-speedtest-1.2.0-linux-armhf.tgz
 tar zxvf ookla-speedtest-1.2.0-linux-armhf.tgz
 sudo cp speedtest /usr/bin/speedtest
-speedtest --accept-license
+speedtest --accept-license --accept-gdpr
 ```
 Run `speedtest -V` to check the version.
 
@@ -59,31 +59,35 @@ Run `grpcurl version` to check the version.
 
 ### Install the Client
 
-Download our Client Script (starlinkstatus_client.sh), which allows for the following flags:
+Download our Client Script (starlinkstatus_client.sh) which will collect latency measurements every 15 seconds and make a speedtest every 15 minutes.
 
-* -s    Enable Speedtest (needs speedtest cli by Ookla)
-* -d    Enable Dishy Data (needs gRPCurl)
-* -w    Use WSL1 mode for old wsl installations on Windows
-
-Note: Since new versions of the Dishy firmware block some APIs, a "Permission Denied" error can be seen in the log when -d is used. As long as it says "Saved" at the end of the output, all is fine.
+The following flags are allowed:
+```   
+-k | --key        API Key for starlinkstatus.space
+-s | --speedtest  Enable Speedtest Data, requires speedtest.net cli
+-d | --dishy      Enable Dishy Data, requires gprcurl
+-i | --interval   Interval for speedtest in seconds (default 15 min / 900s)
+-o | --once       Run only once (simulates old version)
+-h | --help       Show this Message
+```
 
 ## Linux/Mac
-The script is run by a cronjob on a regular basis; follow the commands below after the download to set it up.
+The script is run by a cronjob on reboot; follow the commands below after the download to set it up.
 Replace `~path/to/` with the script's location, and YOURAPIKEY with the key you recieved.
 This example will run the script, including a Speedtest and data from your Dishy, every 15 minutes.
 ```
 chmod +x starlinkstatus_client.sh
 crontab -e
-*/15 * * * * ~/path/to/starlinkstatus_client.sh -k 'YOURAPIKEY' -s -d
+@reboot ~/path/to/starlinkstatus_client.sh -k 'YOURAPIKEY' -s -d
 ```
-### Data Saver 
-This example will run the script, including a Speedtest and data from your Dishy, every 8 hours (3 times in total per day).
+### Data Saver / speedtest interval
+This example will run speedtests every 8 hours / 28800 seconds (3 times in total per day), the latency measurements will continue as usual.
 ```
 chmod +x starlinkstatus_client.sh
 crontab -e
-0 */8 * * * ~/path/to/starlinkstatus_client.sh -k 'YOURAPIKEY' -s -d
+@reboot ~/path/to/starlinkstatus_client.sh -k 'YOURAPIKEY' -s -d -i 28800
 ```
-## Windows
+## Windows (not recommended)
 To run the script every 15 minutes in WSL on Windows, open the "task scheduler" and create a new task.
 - Add a trigger on system start, repeat every 15 minutes for an unlimited time
 - Add a action to start a program, enter the path to wsl.exe (`C:\Windows\System32\wsl.exe`) and add the argument `~/path/to/starlinkstatus_client.sh -k 'YOURAPIKEY' -s -d`
