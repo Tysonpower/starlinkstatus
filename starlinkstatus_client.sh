@@ -24,7 +24,12 @@ help() {
 
 ping_server() {
   local server=$1
-  avg_ping=$(ping -4 -W 1 -c 3 -i 0.2 "$server" | awk -F'/' '/^rtt/ {print $5}')
+  if ping 127.0.0.1 -c 1 -i 0.2; then
+    avg_ping=$(ping -4 -W 1 -c 3 -i 0.2 "$server" | awk -F '/' 'END {print $5}')
+  else
+    avg_ping=$(ping -c 3 "$server" | awk -F '/' 'END {print $5}')
+  fi
+  
   # on timeout use -1
   echo "${avg_ping:-"-1"}"
 }
