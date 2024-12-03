@@ -1,6 +1,6 @@
 #!/bin/bash
 # This script makes Ping tests and sends them to the starlinkstatus.space API
-VERSION=1.3
+VERSION=1.31
 APIURL="https://starlinkstatus.space/api/v1"
 SERVERSURL="https://starlinkstatus.space/api/v1/getservers"
 
@@ -20,6 +20,14 @@ help() {
     echo "-i | --interval   Interval for speedtest in seconds (default 15 min / 900s)"
     echo "-o | --once       Run only once (simulates old version)"
     echo "-h | --help       Show this Message"
+}
+
+retrive_ping_servers() {
+    if ! SERVERS=($(curl -s -m 5 ${SERVERSURL})); then
+        echo "Error: Could not retrieve server list"
+        return 1
+    fi
+    echo "Server list successfully retrieved"
 }
 
 extract_avg_ping() {
@@ -61,20 +69,23 @@ export -f extract_avg_ping
 export -f ping_server
 
 pingservers() {
-    parallel --version >/dev/null && echo "getting servers to ping..." || { echo -e "\e[31mgnu parallel not found! please install it!\e[0m"; exit 1; }
+    parallel --version >/dev/null && echo "Starting ping tests..." || { echo -e "\e[31mError: gnu parallel not found! please install it!\e[0m"; exit 1; }
 
     # get servers to ping
-    SERVERS=($(curl -s ${SERVERSURL}))
+    retrive_ping_servers
+
     # Check if Servers to Ping are there, if not try again (could be caused by connection timeout)
     if [ ${#SERVERS[@]} -gt 0 ]; then
-        SERVERS=($(curl -s ${SERVERSURL}))
+        retrive_ping_servers
     fi
 
-    cnt=$((${#SERVERS[@]} - 1))
     echo "Starting Ping Test (Servers: ${#SERVERS[@]})..."
     
     # parallel ping of servers to save time
-    results=$(printf "%s\n" "${SERVERS[@]}" | parallel --no-notice ping_server {})
+    if ! results=$(printf "%s\n" "${SERVERS[@]}" | timeout 30 parallel --no-notice ping_server {}); then
+        echo -e "\e[31mError: Could not collect ping data\e[0m"
+        return 1
+    fi
     
     i=0
     pingjsn="{"
@@ -93,52 +104,70 @@ pingservers() {
 
 getgeodata() {
     geojsn="{}"
-    geojsn=$(curl -s http://ip-api.com/json/)
+    if ! geojsn=$(curl -s -m 5 http://ip-api.com/json/); then
+        echo -e "\e[31mError: Could not retrieve geo data\e[0m"
+        return 1
+    fi
+    echo "Geo data successfully retrieved"
 }
 
 getdishy() {
+    dishstatus="{}"
     # Check if Dishy Telemetry Enabled and run it
     if [ $dishy == true ]; then
-        grpcurl --version >/dev/null && echo "getting Dishy Data..." || { echo -e "\e[31mgrpcurl not found! please install it!\e[0m"; exit 1; }
-        dishstatus=$(grpcurl -plaintext -emit-defaults -d '{"getStatus":{}}' 192.168.100.1:9200 SpaceX.API.Device.Device/Handle) || dishstatus="{}"
-    else
-        dishstatus="{}"
+        grpcurl --version >/dev/null && echo "Collecting dishy data..." || { echo -e "\e[31mError: grpcurl not found! please install it!\e[0m"; exit 1; }
+        if ! dishstatus=$(timeout 5 grpcurl -plaintext -emit-defaults -d '{"getStatus":{}}' 192.168.100.1:9200 SpaceX.API.Device.Device/Handle); then
+            echo -e "\e[31mError: Could not retrieve dishy data\e[0m"
+            return 1
+        fi
     fi
 }
 
 collect_lr() {
-    echo "Collecting Low Res data... $(date)"
-    pingservers
-    getgeodata
-    getdishy
+    echo "$(date) Starting low-res data collection..."
+    if ! pingservers; then
+        echo "Ping tests failed - skipping"
+    fi
+
+    if ! getgeodata; then
+        echo "Collecting geo data failed - skipping"
+    fi
+
+    if ! getdishy; then
+        echo "Collecting dishy data failed - skipping"
+    fi
     
+    st="{}"
     # Check if Speedtest Enabled and run it
     if [ $speedtest == true ]; then
-        # Check if Servers to Ping are there, if not try again (could be caused by connection timeout)
-        if [ ${#SERVERS[@]} -gt 0 ]
-        then
-            SERVERS=($(curl -s ${SERVERSURL}))
+        speedtest -V --accept-license --accept-gdpr >/dev/null && echo "Starting speedtest..." || { echo -e "\e[31mError: Speedtest CLI not found!\e[0m"; exit 1; }
+        if ! st=$(timeout 60 speedtest --accept-license --accept-gdpr -f json); then
+            echo -e "\e[31mError: Speedtest failed or timed out after 60 seconds\e[0m"
         fi
-
-        speedtest -V --accept-license --accept-gdpr >/dev/null && echo "speedtest is running..." || { echo -e "\e[31mSpeedtest CLI not found!\e[0m"; exit 1; }
-        st=$(speedtest --accept-license --accept-gdpr -f json)
-    else
-        st="{}"
     fi
     
     local jsndata='{"key":"'$apikey'","geo":'$geojsn',"ping":'$pingjsn',"speed":'$st',"dishyStatus":'$dishstatus',"version":'$VERSION'}'
     # Send data to API
-    curl -d "$jsndata" -H "Content-Type: application/json" -X POST $APIURL/lowres
+    if ! timeout 5 curl -d "$jsndata" -H "Content-Type: application/json" -X POST $APIURL/lowres; then
+        echo "Uploading data to api failed"
+    fi
 }
 
 collect_hr() {
-    echo "Collecting High Res data... $(date)"
-    pingservers
-    getdishy
+    echo "$(date) Starting high-res data collection..."
+    if ! pingservers; then
+        echo "Ping tests failed - skipping"
+    fi
+
+    if ! getdishy; then
+        echo "Collecting dishy data failed - skipping"
+    fi
 
     local jsndata='{"key":"'$apikey'","ping":'$pingjsn',"dishyStatus":'$dishstatus',"version":'$VERSION'}'
     # Send data to API
-    curl -d "$jsndata" -H "Content-Type: application/json" -X POST $APIURL/highres
+    if ! timeout 5 curl -d "$jsndata" -H "Content-Type: application/json" -X POST $APIURL/highres; then
+        echo "Uploading data to api failed"
+    fi
 }
 
 checkifrunning() {
@@ -195,6 +224,7 @@ checkifrunning
 # if user runs only once mode don't start the loop for timing
 if [ $only_once == false ]; then
     while true; do
+        echo "$(date) Status check:"
         current_time=$(date +%s)
 
         # check if seconds interval (default is 15s)
